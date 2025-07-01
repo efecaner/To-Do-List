@@ -1,0 +1,75 @@
+<!--
+  Bu dosya, web tabanlı To-Do List uygulamasının ana HTML iskeletidir.
+  HTML5 semantik etiketleri kullanılmıştır. Yapı, erişilebilirlik ve responsive tasarım için optimize edilmiştir.
+-->
+<!DOCTYPE html> <!-- HTML5 belgesi olduğunu belirtir. Modern tarayıcılar için gereklidir. -->
+<html lang="tr"> <!-- Sayfanın dilini Türkçe olarak ayarlar. SEO ve erişilebilirlik için önemlidir. -->
+
+<head>
+  <!-- Karakter seti Türkçe karakter desteği için UTF-8 olarak ayarlanır. -->
+  <meta charset="UTF-8">
+  <!-- Responsive tasarım için viewport ayarı yapılır. Mobil uyumluluk sağlar. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tarayıcı sekmesinde görülecek başlık. -->
+  <title>To-Do List</title>
+  <!-- Harici CSS dosyası eklenir. Stil ve tema yönetimi için gereklidir. -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!--
+    <header> etiketi, sayfanın üst kısmını ve başlığı içerir.
+    Tema değiştirme butonu erişilebilirlik için aria-label ile birlikte eklenmiştir.
+  -->
+  <header>
+    <!-- Logo alanı: başlık ve ikon modern bir şekilde gösterilir. -->
+    <div class="logo">
+      <span class="logo-icon">📝</span> <!-- Logo ikonu, uygulamanın amacını vurgular. -->
+      <span class="logo-text">To-Do List</span> <!-- Logo metni, gradient ve kalın yazı ile dikkat çeker. -->
+    </div>
+    <button id="theme-toggle" aria-label="Tema Değiştir">🌙</button> <!-- Tema değiştirme butonu. Açık/koyu tema arasında geçiş sağlar. -->
+  </header>
+  <main>
+    <!--
+      Görev ekleme alanı. Kullanıcıdan yeni görev girişi alınır.
+      input ve buton yan yana olacak şekilde düzenlenmiştir.
+    -->
+    <section id="task-input-section">
+      <input type="text" id="task-input" placeholder="Yeni görev ekle..." maxlength="100" /> <!-- Görev metni girişi. Maksimum 100 karakter. -->
+      <input type="date" id="task-date" placeholder="Teslim Zamanı" aria-label="Teslim Zamanı" title="Teslim Zamanı" /> <!-- Görev teslim zamanı seçici. -->
+      <button id="add-task-btn">Ekle</button> <!-- Görev ekleme butonu. Kullanıcı yeni görev ekler. -->
+    </section>
+    <!-- Uyarı mesajı kutusu, eksik bilgi girilirse gösterilir. -->
+    <div id="input-warning" style="display:none;color:#d90429;font-size:0.98rem;margin-bottom:1rem;"></div>
+    <!--
+      Filtreleme butonları ve toplu silme butonları. Kullanıcı görevleri filtreleyebilir veya topluca silebilir.
+      data-filter özelliği ile JavaScript tarafında filtreleme yapılır.
+    -->
+    <section id="filters-section">
+      <button class="filter-btn active" data-filter="all">Tümü</button> <!-- Tüm görevleri gösterir. Varsayılan olarak aktiftir. -->
+      <button class="filter-btn" data-filter="active">Tamamlanmayanlar</button> <!-- Sadece tamamlanmamış görevleri gösterir. -->
+      <button class="filter-btn" data-filter="completed">Tamamlananlar</button> <!-- Sadece tamamlanmış görevleri gösterir. -->
+      <button id="clear-completed-btn" title="Tamamlananları Sil" style="margin-left:1.5rem;">Tamamlananları Sil</button> <!-- Tamamlanan görevleri topluca siler. -->
+      <button id="clear-all-btn" title="Tümünü Sil" style="margin-left:0.5rem;">Tümünü Sil</button> <!-- Tüm görevleri topluca siler. -->
+    </section>
+    <!--
+      Görevlerin listeleneceği ana alan.
+      <ul> elementi JavaScript ile dinamik olarak doldurulur.
+    -->
+    <section id="tasks-section">
+      <ul id="task-list"></ul> <!-- Görevlerin ekleneceği liste. Başlangıçta boştur. -->
+    </section>
+  </main>
+  <!--
+    Sayfanın alt kısmı. Telif hakkı ve uygulama bilgisi içerir.
+  -->
+  <footer>
+    <p>© 2025 Nova Academy To-Do List Uygulaması</p>
+  </footer>
+  <!--
+    JavaScript dosyası eklenir. Tüm etkileşim ve veri yönetimi bu dosyada yapılır.
+  -->
+  <script src="app.js"></script>
+</body>
+
+</html>

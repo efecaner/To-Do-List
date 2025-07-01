@@ -1,0 +1,436 @@
+/*
+  Bu dosya, To-Do List uygulamasının stil ve tema yönetimini sağlar.
+  Responsive tasarım, açık/koyu tema ve modern görünüm için CSS değişkenleri ve Flexbox kullanılmıştır.
+*/
+
+/*
+  Temel renk ve geçiş değişkenleri tanımlanır.
+  :root ile tüm sayfada kullanılabilir hale getirilir.
+*/
+:root {
+  --bg-color: #f9f9f9; /* Açık tema arka plan rengi */
+  --text-color: #222;   /* Açık tema metin rengi */
+  --primary: #4f8cff;   /* Ana tema rengi (mavi) */
+  --secondary: #e0e7ef; /* İkincil arka plan rengi */
+  --accent: #ff6b6b;    /* Vurgu rengi (kırmızı ton) */
+  --task-bg: #fff;      /* Görev kutularının arka planı */
+  --task-border: #e0e7ef; /* Görev kutularının kenar rengi */
+  --transition: 0.3s;   /* Geçiş animasyon süresi */
+}
+
+/*
+  Koyu tema için renk değişkenleri tanımlanır.
+  [data-theme="dark"] ile body'ye veya html'e eklenince aktif olur.
+*/
+[data-theme="dark"] {
+  --bg-color: #181a1b; /* Koyu tema arka plan rengi */
+  --text-color: #f1f1f1; /* Koyu tema metin rengi */
+  --primary: #4f8cff; /* Ana tema rengi (mavi) */
+  --secondary: #23272a; /* Koyu tema ikincil arka plan */
+  --accent: #ff6b6b; /* Vurgu rengi */
+  --task-bg: #23272a; /* Koyu tema görev kutusu arka planı */
+  --task-border: #333; /* Koyu tema görev kutusu kenar rengi */
+}
+
+/*
+  Tüm elementlerde kutu modeli ve boşluklar sıfırlanır.
+  Bu, responsive ve tutarlı bir görünüm için önemlidir.
+*/
+* {
+  box-sizing: border-box; /* Padding ve border, toplam genişlik ve yüksekliğe dahil edilir */
+  margin: 0; /* Varsayılan dış boşluklar kaldırılır */
+  padding: 0; /* Varsayılan iç boşluklar kaldırılır */
+}
+
+/*
+  Sayfa genel ayarları. Flexbox ile dikey hizalama ve tema renkleri uygulanır.
+*/
+body {
+  font-family: 'Segoe UI', Arial, sans-serif; /* Okunabilir, modern font ailesi */
+  background: var(--bg-color); /* Tema arka planı */
+  color: var(--text-color); /* Tema metin rengi */
+  min-height: 100vh; /* Sayfanın minimum yüksekliği */
+  display: flex; /* Flexbox ile dikey hizalama */
+  flex-direction: column; /* Elemanlar dikeyde sıralanır */
+  transition: background var(--transition), color var(--transition); /* Tema geçiş animasyonu */
+  letter-spacing: 0.01em; /* Harfler arası hafif boşluk, okunabilirlik için */
+}
+
+/*
+  Üst kısım düzeni. Başlık ve tema butonu yatayda hizalanır.
+*/
+header {
+  display: flex; /* Yatayda hizalama için flex */
+  justify-content: space-between; /* Başlık ve buton arası boşluk */
+  align-items: center; /* Dikeyde ortalama */
+  padding: 1.5rem 2rem 1rem 2rem; /* Üst, sağ, alt, sol iç boşluklar */
+  background: var(--secondary); /* Üst alan arka planı */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03); /* Hafif gölge, derinlik için */
+}
+header h1 {
+  display: none; /* Eski başlık gizlendi */
+}
+
+/* Tema değiştirme butonu. Sadece ikon ve renk değiştirir. */
+#theme-toggle {
+  background: none; /* Arka plan yok */
+  border: none; /* Kenarlık yok */
+  font-size: 1.5rem; /* Büyük ikon */
+  cursor: pointer; /* El işareti */
+  transition: color var(--transition); /* Renk geçişi */
+  color: var(--primary); /* Ana tema rengi */
+}
+
+/*
+  Ana içerik alanı. Flexbox ile ortalanır ve responsive padding uygulanır.
+*/
+main {
+  flex: 1; /* Kalan alanı kapla */
+  display: flex; /* Flexbox ile hizalama */
+  flex-direction: column; /* Dikeyde sıralama */
+  align-items: center; /* Ortala */
+  padding: 2.5rem 1rem 1.5rem 1rem; /* Üst, sağ, alt, sol iç boşluklar */
+  max-width: 700px; /* Ana alanın maksimum genişliği */
+  margin: 0 auto; /* Ortala */
+}
+
+/*
+  Görev ekleme alanı. input ve buton yan yana ve responsive genişlikte.
+*/
+#task-input-section {
+  display: flex; /* Yan yana hizalama */
+  gap: 1rem; /* Elemanlar arası boşluk */
+  width: 100%; /* Tam genişlik */
+  max-width: 600px; /* Maksimum genişlik */
+  margin-bottom: 2rem; /* Alt boşluk */
+  background: var(--task-bg); /* Kart arka planı */
+  border-radius: 16px; /* Kart köşeleri yuvarlatılır */
+  box-shadow: 0 4px 24px rgba(79,140,255,0.07); /* Yumuşak mavi gölge, kart efekti */
+  padding: 1.2rem 1.5rem; /* Kart iç boşluk */
+  align-items: center; /* Dikeyde ortala */
+}
+#task-input {
+  flex: 1; /* Kalan alanı kapla */
+  padding: 1rem 1.2rem; /* İç boşluk */
+  border: 1.5px solid var(--task-border); /* Kenarlık */
+  border-radius: 10px; /* Yuvarlatılmış köşe */
+  font-size: 1.1rem; /* Büyük metin */
+  background: #f8fafc; /* Açık gri arka plan */
+  transition: border 0.2s, box-shadow 0.2s; /* Yumuşak geçişler */
+  box-shadow: 0 2px 8px rgba(79,140,255,0.04); /* Hafif gölge */
+}
+#task-input:focus {
+  border-color: var(--primary); /* Odakta mavi kenarlık */
+  outline: none; /* Varsayılan dış çizgi yok */
+  box-shadow: 0 2px 12px rgba(79,140,255,0.13); /* Odakta daha belirgin gölge */
+}
+#add-task-btn {
+  padding: 1rem 2.2rem; /* Büyük buton */
+  border-radius: 10px; /* Yuvarlatılmış köşe */
+  font-size: 1.1rem; /* Büyük metin */
+  font-weight: 700; /* Kalın yazı */
+  background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%); /* Canlı gradient */
+  color: #fff; /* Beyaz metin */
+  border: none; /* Kenarlık yok */
+  box-shadow: 0 2px 12px rgba(79,140,255,0.10); /* Hafif mavi gölge */
+  cursor: pointer; /* El işareti */
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s; /* Yumuşak geçişler */
+  letter-spacing: 0.03em; /* Harf arası boşluk */
+}
+#add-task-btn:hover, #add-task-btn:focus {
+  background: linear-gradient(90deg, var(--accent) 40%, var(--primary) 100%); /* Hoverda gradient ters */
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(255,107,107,0.13); /* Hoverda daha belirgin gölge */
+}
+#task-input-section input[type="date"] {
+  background: #fff !important; /* Beyaz arka plan */
+  color: #111; /* Siyah metin */
+  border: 1.5px solid var(--task-border); /* Kenarlık */
+  border-radius: 10px; /* Yuvarlatılmış köşe */
+  font-size: 1.1rem; /* Büyük metin */
+  font-family: 'Segoe UI', Arial, sans-serif; /* Modern font */
+  padding: 1rem 1.2rem; /* İç boşluk */
+  min-width: 140px; /* Minimum genişlik */
+  box-sizing: border-box; /* Taşma olmasın */
+  transition: border 0.2s, box-shadow 0.2s; /* Yumuşak geçişler */
+  box-shadow: 0 2px 8px rgba(79,140,255,0.04); /* Hafif gölge */
+}
+#task-input-section input[type="date"]:focus {
+  border-color: var(--primary); /* Odakta mavi kenarlık */
+  box-shadow: 0 2px 12px rgba(79,140,255,0.13); /* Odakta daha belirgin gölge */
+}
+#task-input-section input[type="date"]::placeholder {
+  color: #111 !important; /* Placeholder (gg.aa.yyyy) kısmı siyah */
+  opacity: 1;
+}
+#task-input-section input[type="date"]::-webkit-input-placeholder {
+  color: #111 !important;
+  opacity: 1;
+}
+#task-input-section input[type="date"]::-moz-placeholder {
+  color: #111 !important;
+  opacity: 1;
+}
+#task-input-section input[type="date"]:-ms-input-placeholder {
+  color: #111 !important;
+  opacity: 1;
+}
+#task-input-section input[type="date"]::-ms-input-placeholder {
+  color: #111 !important;
+  opacity: 1;
+}
+.task-date {
+  margin-left: 1.2rem; /* Solda boşluk */
+  font-size: 1.01rem; /* Küçük metin */
+  color: #888; /* Açık gri */
+  font-weight: 500; /* Yarı kalın */
+  letter-spacing: 0.5px; /* Harf aralığı */
+  white-space: nowrap; /* Tek satırda tut */
+  display: inline-block; /* Satır içi blok */
+  min-width: 90px; /* Minimum genişlik */
+}
+
+/*
+  Filtre butonları alanı. Butonlar yatayda ve aralarında boşluk var.
+*/
+#filters-section {
+  display: flex; /* Yatayda hizalama */
+  gap: 0.7rem; /* Butonlar arası boşluk */
+  margin-bottom: 2.2rem; /* Alt boşluk */
+  flex-wrap: wrap; /* Taşarsa alt satıra geç */
+  justify-content: center; /* Ortala */
+}
+.filter-btn {
+  background: #f3f4f6; /* Açık gri chip arka planı */
+  color: #4f8cff; /* Mavi metin */
+  border: none; /* Kenarlık yok */
+  border-radius: 20px; /* Tam yuvarlak chip */
+  font-size: 1.05rem; /* Orta boy metin */
+  font-weight: 600; /* Yarı kalın */
+  padding: 0.6rem 1.5rem; /* Chip iç boşluk */
+  margin: 0 0.1rem; /* Yana hafif boşluk */
+  box-shadow: 0 2px 8px rgba(60,60,60,0.04); /* Hafif gölge */
+  cursor: pointer; /* El işareti */
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s; /* Yumuşak geçişler */
+  outline: none; /* Varsayılan dış çizgi yok */
+  letter-spacing: 0.01em; /* Harf arası boşluk */
+}
+.filter-btn.active, .filter-btn:hover, .filter-btn:focus {
+  background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%); /* Aktif chip gradient */
+  color: #fff; /* Beyaz metin */
+  box-shadow: 0 4px 16px rgba(79,140,255,0.10); /* Belirgin gölge */
+}
+
+/*
+  Görev listesi alanı. Responsive genişlikte tutulur.
+*/
+#tasks-section {
+  width: 100%; /* Tam genişlik */
+  max-width: 600px; /* Maksimum genişlik */
+}
+#task-list {
+  list-style: none; /* Madde işareti yok */
+  width: 100%; /* Tam genişlik */
+}
+
+/*
+  Her bir görev kutusu. Flexbox ile elemanlar yatayda hizalanır.
+  Tamamlanan görevler için .completed sınıfı ile üstü çizili stil uygulanır.
+*/
+.task-item {
+  display: flex; /* Yatayda hizalama */
+  align-items: center; /* Dikeyde ortala */
+  background: #fff; /* Kart arka planı */
+  border-radius: 16px; /* Kart köşeleri yuvarlatılır */
+  box-shadow: 0 4px 24px rgba(79,140,255,0.07); /* Yumuşak mavi gölge */
+  padding: 1.1rem 1.5rem; /* Kart iç boşluk */
+  margin-bottom: 1.2rem; /* Kartlar arası boşluk */
+  position: relative; /* İçerik için referans */
+  border-left: 6px solid transparent; /* Tamamlanmayanlarda sol çizgi yok */
+  transition: background 0.2s, border 0.2s, box-shadow 0.2s, opacity 0.25s; /* Yumuşak geçişler */
+}
+.task-item.completed {
+  border-left: 6px solid var(--accent); /* Tamamlananlarda kırmızı çizgi */
+  background: #f8fafc; /* Tamamlananlarda açık arka plan */
+}
+.task-item.completed .task-text {
+  text-decoration: line-through; /* Üstü çizili */
+  color: #aaa; /* Soluk metin */
+  opacity: 0.7; /* Yarı saydam */
+}
+
+/* Checkbox stili. Renk ve boyut ayarlanır. */
+.task-checkbox {
+  margin-right: 1.2rem; /* Sağda boşluk */
+  accent-color: var(--primary); /* Checkbox rengi */
+  width: 1.3rem; /* Büyük checkbox */
+  height: 1.3rem; /* Büyük checkbox */
+  flex-shrink: 0; /* Küçülmesin */
+}
+
+/* Görev metni. Okunabilir ve responsive. */
+.task-text {
+  flex: 1; /* Kalan alanı kapla */
+  font-size: 1.13rem; /* Büyük metin */
+  word-break: break-word; /* Uzun kelimeler bölünsün */
+  transition: color 0.2s; /* Renk geçişi */
+  cursor: pointer; /* El işareti */
+  font-weight: 500; /* Yarı kalın */
+}
+
+/* Silme butonu. Sadece ikon ve renk değiştirir. */
+.task-delete {
+  background: none; /* Arka plan yok */
+  border: none; /* Kenarlık yok */
+  color: var(--accent); /* Kırmızı ikon */
+  font-size: 1.3rem; /* Büyük ikon */
+  cursor: pointer; /* El işareti */
+  margin-left: 0.7rem; /* Solda boşluk */
+  transition: color 0.2s; /* Renk geçişi */
+  flex-shrink: 0; /* Küçülmesin */
+}
+.task-delete:hover, .task-delete:focus {
+  color: #d90429; /* Daha koyu kırmızı */
+}
+
+/* Alt bilgi alanı. Küçük ve sade. */
+footer {
+  text-align: center; /* Ortala */
+  padding: 1rem; /* İç boşluk */
+  background: var(--secondary); /* Arka plan */
+  font-size: 0.95rem; /* Küçük metin */
+  color: #888; /* Açık gri */
+}
+
+/*
+  Mobil uyumlu tasarım için medya sorgusu.
+  Genişlik 600px'den küçükse padding ve başlık boyutu ayarlanır.
+*/
+@media (max-width: 700px) {
+  main, #tasks-section, #task-input-section {
+    max-width: 100%; /* Mobilde tam genişlik */
+    padding-left: 0.5rem; /* Mobilde daha dar padding */
+    padding-right: 0.5rem;
+  }
+  #task-input-section {
+    flex-direction: column; /* Mobilde dikey hizalama */
+    gap: 0.7rem; /* Mobilde daha az boşluk */
+    padding: 1rem 0.7rem; /* Mobilde daha az iç boşluk */
+  }
+  .task-item {
+    padding: 1rem 0.7rem; /* Mobilde daha az iç boşluk */
+  }
+}
+
+/*
+  Logo alanı: Başlığı daha dikkat çekici ve modern göstermek için özel stil.
+*/
+.logo {
+  display: flex; /* Yatayda hizalama */
+  align-items: center; /* Dikeyde ortalama */
+  gap: 0.7rem; /* Elemanlar arası boşluk */
+  font-size: 2.1rem; /* Büyük logo */
+  font-weight: bold; /* Kalın yazı */
+  color: var(--primary); /* Ana tema rengi */
+  letter-spacing: 1.5px; /* Harf aralığı */
+  user-select: none; /* Seçilemez */
+  text-shadow: 0 2px 8px rgba(79,140,255,0.08); /* Hafif mavi gölge */
+}
+.logo-icon {
+  font-size: 2.2rem; /* Büyük ikon */
+  filter: drop-shadow(0 2px 4px rgba(79,140,255,0.10)); /* Hafif mavi gölge */
+  margin-right: 0.1rem; /* Sağda hafif boşluk */
+}
+.logo-text {
+  font-family: 'Segoe UI', Arial, sans-serif; /* Okunabilir font */
+  color: var(--primary); /* Ana tema rengi */
+  background: linear-gradient(90deg, var(--primary) 60%, var(--accent) 100%); /* Mavi-kırmızı geçişli yazı */
+  -webkit-background-clip: text; /* Sadece metne uygula (Safari/Chrome) */
+  -webkit-text-fill-color: transparent; /* Sadece metin görünür */
+  background-clip: text; /* Sadece metne uygula */
+  text-fill-color: transparent; /* Sadece metin görünür */
+  font-weight: 800; /* Çok kalın */
+  letter-spacing: 2px; /* Harf aralığı */
+}
+
+/*
+  Modern filtre ve ekle butonları için yeni stil. Gri tonlar, yumuşak gölge ve geçiş efektleri.
+*/
+#add-task-btn, .filter-btn {
+  border: none; /* Butonun kenarlığı yok, sade görünüm sağlar */
+  border-radius: 8px; /* Köşeleri yuvarlatır, modern ve yumuşak bir görünüm verir */
+  background: linear-gradient(180deg, #f3f4f6 60%, #e5e7eb 100%); /* Dikeyde açık gridan daha koyu griye geçişli arka plan */
+  color: #444; /* Buton metni koyu gri, okunabilirlik için */
+  box-shadow: 0 2px 8px rgba(60,60,60,0.06); /* Hafif gölge: x=0, y=2px, blur=8px, siyaha yakın gri ve %6 opaklık. Butonu arka plandan hafifçe ayırır, derinlik hissi verir */
+  font-weight: 600; /* Yarı kalın yazı, vurgulu ve okunaklı */
+  font-size: 1rem; /* Standart buton metni boyutu */
+  padding: 0.7rem 1.5rem; /* Dikeyde 0.7rem, yatayda 1.5rem iç boşluk. Butonun içeriği rahatça ortalanır ve büyük görünür */
+  margin: 0; /* Dış boşluk yok, hizalama için diğer stiller kullanılacak */
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s; /* Arka plan, metin rengi ve gölge değişimlerinde 0.2 saniyelik yumuşak geçiş animasyonu */
+  outline: none; /* Tıklanınca veya odaklanınca varsayılan dış çizgi gösterilmez, özel focus stili için */
+}
+#add-task-btn {
+  background: linear-gradient(180deg, #e5e7eb 60%, #d1d5db 100%); /* Ekle butonu için daha koyu gri geçiş */
+  color: #222; /* Daha koyu metin */
+  box-shadow: 0 2px 8px rgba(79,140,255,0.10); /* Hafif mavi gölge */
+}
+#add-task-btn:hover, #add-task-btn:focus {
+  background: linear-gradient(180deg, #dbeafe 60%, #93c5fd 100%); /* Hoverda maviye geçiş */
+  color: #1e3a8a; /* Koyu mavi metin */
+}
+.filter-btn {
+  background: linear-gradient(180deg, #f3f4f6 60%, #e5e7eb 100%); /* Gri geçişli arka plan */
+  color: #444; /* Koyu gri metin */
+  box-shadow: 0 2px 8px rgba(60,60,60,0.06); /* Hafif gölge */
+  font-weight: 600; /* Yarı kalın */
+  font-size: 1rem; /* Standart boyut */
+  padding: 0.6rem 1.3rem; /* İç boşluk */
+  margin: 0 0.1rem; /* Yana hafif boşluk */
+  border: 1.5px solid #e5e7eb; /* Gri kenarlık */
+}
+.filter-btn.active, .filter-btn:hover, .filter-btn:focus {
+  background: linear-gradient(180deg, #e0e7ef 60%, #c7d2fe 100%); /* Aktif veya hoverda maviye yakın geçiş */
+  color: var(--primary); /* Ana tema rengi */
+  border: 1.5px solid var(--primary); /* Mavi kenarlık */
+  box-shadow: 0 4px 16px rgba(79,140,255,0.10); /* Daha belirgin mavi gölge */
+}
+
+#input-warning {
+  display: none; /* Başlangıçta gizli, sadece uyarı olduğunda görünür */
+  color: #d90429; /* Kırmızı metin rengi, hata/uyarı vurgusu için */
+  font-size: 0.98rem; /* Küçük ve okunaklı metin boyutu */
+  margin-bottom: 1rem; /* Altında boşluk bırakır */
+  background: #fff0f0; /* Açık kırmızı arka plan, dikkat çekici */
+  border: 1px solid #ffd6d6; /* Açık kırmızı kenarlık, uyarı kutusunu belirginleştirir */
+  border-radius: 6px; /* Köşeleri yuvarlatır, yumuşak görünüm */
+  padding: 0.5rem 1rem; /* İç boşluk, metni kutu içinde ortalar */
+  transition: opacity 0.3s; /* Görünürlük değişiminde yumuşak geçiş sağlar */
+}
+#clear-completed-btn, #clear-all-btn {
+  background: linear-gradient(180deg, #f3f4f6 60%, #e5e7eb 100%); /* Gri tonlarda dikey geçişli arka plan */
+  color: #888; /* Açık gri metin rengi */
+  border: 1.5px solid #e5e7eb; /* Gri kenarlık, butonu belirginleştirir */
+  border-radius: 8px; /* Köşeleri yuvarlatır, modern görünüm */
+  font-weight: 600; /* Yarı kalın yazı, vurgulu */
+  font-size: 1rem; /* Standart buton metni boyutu */
+  padding: 0.6rem 1.2rem; /* Dikeyde 0.6rem, yatayda 1.2rem iç boşluk */
+  margin: 0 0.1rem; /* Yana hafif boşluk, butonlar arası mesafe */
+  box-shadow: 0 2px 8px rgba(60,60,60,0.06); /* Hafif gölge, butonu arka plandan ayırır */
+  cursor: pointer; /* Üzerine gelince el işareti çıkar */
+  transition: background 0.2s, color 0.2s, border 0.2s; /* Renk ve kenarlık değişimlerinde yumuşak geçiş */
+}
+#clear-completed-btn:hover, #clear-all-btn:hover, #clear-completed-btn:focus, #clear-all-btn:focus {
+  background: linear-gradient(180deg, #ffe4e6 60%, #fca5a5 100%); /* Hover/focus durumunda kırmızımsı geçişli arka plan */
+  color: #b91c1c; /* Koyu kırmızı metin, uyarı vurgusu */
+  border: 1.5px solid #f87171; /* Kırmızı kenarlık, aktiflik vurgusu */
+}
+.task-item {
+  transition: opacity 0.25s; /* Silme/ekleme animasyonunda yumuşak görünürlük geçişi */
+}
+
+[data-theme="dark"] input[type="date"] {
+  background: #fff !important; /* Koyu temada da beyaz arka plan */
+  color: #111; /* Metin rengi siyah */
+  border: 1.5px solid var(--primary); /* Koyu temada mavi kenarlık */
+  box-shadow: 0 2px 8px rgba(79,140,255,0.13); /* Hafif mavi gölge */
+} 
